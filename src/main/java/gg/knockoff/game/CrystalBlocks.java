@@ -110,6 +110,8 @@ public class CrystalBlocks implements Listener {
                      AMETHYST_BLOCK, CUT_COPPER_SLAB, CUT_COPPER_STAIRS, PINK_STAINED_GLASS, PINK_STAINED_GLASS_PANE,
                      PINK_CARPET, FROSTED_ICE
                         -> {
+                    //Plays the amethiste break sound, otherwise it just sounds like breaking a normal broke. 
+                    block.getWorld().playSound(block.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_BREAK, 1.0f, 1.0f);
                     if (block.getType().equals(Material.FROSTED_ICE)) {
                         block.setType(Material.AIR);
                     } else {
