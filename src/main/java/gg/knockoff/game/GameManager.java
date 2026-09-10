@@ -61,6 +61,8 @@ public class GameManager { //I honestly think this entire class could be optimis
     public HazardsManager hazards;
     public static List<Block> blocksCrystallizing = new ArrayList<>();
     public static List<MapParticles> particles = new ArrayList<>();
+    //keeps track of player placed blocks, as players can built out of the map limiter now, it is quite important.
+    public static final Set<Block> playerPlacdBlocks = new HashSet<>();
 
     public static int SectionPlaceLocationX = 1000;
     public static int SectionPlaceLocationY = 0;
@@ -177,7 +179,8 @@ public class GameManager { //I honestly think this entire class could be optimis
         for (Player player : Bukkit.getOnlinePlayers()) {
             playerDatas.add(new PlayerData(player));
         }
-
+        //makes sure player placed blcoks are cleared at the start of the game, before players are spawned.
+        playerPlacdBlocks.clear();
         SetupFirstSpawns();
 
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -457,6 +460,10 @@ public class GameManager { //I honestly think this entire class could be optimis
                     }
 
                     Location loc = p.getLocation();
+                    if (MapManager.isInsideCurrentSection(loc)) {
+                        //rests it when rentered the current section, will become true when old section is fully deleted
+                        pd.onlyUseCurrentSectionForBuildDistance = false;
+                    }
                     if (MapManager.isInsideDecayingSection(loc)) {
                         p.showTitle(Title.title(
                                 text(" "),
@@ -726,6 +733,7 @@ public class GameManager { //I honestly think this entire class could be optimis
         blocksCrystallizing.clear();
         particles.clear();
         showdownBlockList.clear();
+        playerPlacdBlocks.clear();
         //resets section locations to default values
         SectionPlaceLocationX = 1000;
         SectionPlaceLocationY = 0;
@@ -1214,11 +1222,14 @@ public class GameManager { //I honestly think this entire class could be optimis
                                 p.playSound(b.getLocation(), "minecraft:block.amethyst_block.break", 1, 1);
                             }
                         }
+                        //removes the player placed blocks from the set
+                        playerPlacdBlocks.remove(b);
                         b.setType(Material.AIR);
                         blocksCrystallizing.remove(b);
                         cancel();
                     }
                     if (b.getType().equals(Material.AIR)) { //For if the blocks get broken during this
+                        playerPlacdBlocks.remove(b);
                         blocksCrystallizing.remove(b);
                         cancel();
                     }
