@@ -455,7 +455,7 @@ public class MapManager {
         return Math.max(horizontalDistance, verticalDistance);
     }
     //Makes so the blocks start decaying realy fast in the region specificly
-    /*TODO (not priority): For now this section is absolite as I made all blocks have some form of the decay, but once the decaying taks is rewriten to allow crystals
+    /*DONE (not priority): For now this section is absolite as I made all blocks have some form of the decay, but once the decaying taks is rewriten to allow crystals
        to decay faster it will work again so keept. */
     public static void rapidlyDecayPlayerPlacedBlocksInRegion(int x1, int y1, int z1, int x2, int y2, int z2) {
        //Gets the cordinates and checks which one is the bigger and smaller to make a box

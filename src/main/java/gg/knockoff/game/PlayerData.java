@@ -42,6 +42,8 @@ public class PlayerData { //This class probably isn't optimised, but it works so
     public boolean warnedOutsideBuildLimit = false;
     public boolean warnedFarBuildLimit = false;
     public boolean warnedVeryFarBuildLimit = false;
+    //coold down before magma and cactuse damage applies
+    public int magmaDamageCooldown = 0;
 
 
     public int percent = 0;
